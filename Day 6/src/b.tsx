@@ -3,7 +3,7 @@ import {a,isLegal} from "./a2";
 import * as math from "./a";
 
 import xyz from "./a";
-console.log(a);
+//console.log(a);
 console.log(isLegal(18));
 console.log(N);
 console.log(L(18));
