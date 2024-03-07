@@ -18,20 +18,57 @@ router.post("/",verifyToken,async (req,res)=>{
     res.send({tweet});
 })
 
-router.get("/",(req,res)=>{
-
+router.get("/",async(req,res)=>{
+    const {title,content}=req.body;
+    const result=await prisma.tweet.findMany({
+        where:{
+            OR:[
+                {
+                    title:{
+                        contains:title
+                    },
+                    content:{
+                        contains:content
+                    }
+                }
+            ]
+        }
+    })
+    res.send(result);
 })
 
-router.delete("/:id",(req,res)=>{
-
+router.delete("/:id",verifyToken,async (req,res)=>{
+    const id=Number(req.params.id);
+    await prisma.tweet.delete({
+        where:{
+            id:id
+        }
+    })
+    res.send("Successfully Deleted");
 })
 
-router.put("/:id",(req,res)=>{
-
+router.put("/:id",verifyToken,async (req,res)=>{
+    const id=Number(req.params.id);
+    const {title,content}=req.body;
+    await prisma.tweet.update({
+        where:{
+            id:id
+        },
+        data:{
+            title:title,
+            content:content
+        }
+    })
 })
 
-router.get("/:id",(req,res)=>{
-
+router.get("/:id",async (req,res)=>{
+    const id=Number(req.params.id);
+    const tweet=await prisma.tweet.findUnique({
+        where:{
+            id:id
+        }
+    })
+    res.send(tweet);
 })
 
 export default router;
