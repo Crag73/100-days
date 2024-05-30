@@ -11,6 +11,7 @@ class Solution {
             right--;
             ans++;
         }
+        //s
         return ans;
     }
 }
